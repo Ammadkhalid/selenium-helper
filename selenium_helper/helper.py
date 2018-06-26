@@ -2,7 +2,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
-from exception import UnkownExcelTypeFile
+from .exceptions import UnkownExcelTypeFile
 from typing import Generator
 
 class Helper(object):
