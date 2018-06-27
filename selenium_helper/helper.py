@@ -51,6 +51,30 @@ class Helper(object):
 
 		return df.iterrows()
 
+	def store_excel(self, data: list or dict, output: str):
+		exts = ['csv', 'xlsx']
+
+		if type(data) is dict:
+			data = [data]
+
+		df = pd.DataFrame(data)
+
+		ext = output.split('.')[-1].lower()
+
+		if not ext in exts:
+			raise UnkownExcelTypeFile('Unkown "{}" extension for excel!'.format(ext))
+
+		if ext == 'csv':
+
+			if exists(output):
+				df.to_csv(output, header = False, index = False, mode = 'a')
+			else:
+				df.to_csv(output, index = False)
+
+		elif ext == 'xlsx':
+
+			df.to_excel(output)
+
 	def open_link_in_new_tab(self, element: WebElement):
 		actions = ActionChains(self.driver)
 
