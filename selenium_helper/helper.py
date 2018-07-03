@@ -4,8 +4,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from .exceptions import UnkownExcelTypeFile
 from typing import Generator
+from abc import ABCMeta
+import pandas as pd
+from os.path import exists
 
-class Helper(object):
+class Helper(metaclass = ABCMeta):
 
 	def send_keys_by_xpath(self, xpath: str, value: str) -> bool:
 		element = self.driver.find_element_by_xpath(xpath)
@@ -24,10 +27,10 @@ class Helper(object):
 		return input(input_style)
 
 	def click_by_xpath(self, xpath, ignore_error = True) -> bool:
-		element = self.driver.find_element_by_xpath(xpath)
-
-		if element is None:
-			return
+		try:
+			element = self.driver.find_element_by_xpath(xpath)
+		except NoSuchElementException as e:
+			return 
 
 		if ignore_error:
 			try:
@@ -51,13 +54,16 @@ class Helper(object):
 
 		return df.iterrows()
 
-	def store_excel(self, data: list or dict, output: str):
+	def store_excel(self, data: list or dict, output: str, column_order: list = []):
 		exts = ['csv', 'xlsx']
 
 		if type(data) is dict:
 			data = [data]
 
 		df = pd.DataFrame(data)
+
+		if len(column_order) >= 2:
+			df = df[column_order]
 
 		ext = output.split('.')[-1].lower()
 
