@@ -5,7 +5,7 @@ from setuptools import (
 
 setup(
 name = 'selenium-helper',
-version = '0.1.1',
+version = '0.1.2.1',
 author = 'Ammad Khalid',
 author_email = 'ammadkhalid12@gmail.com',
 packages = find_packages(),

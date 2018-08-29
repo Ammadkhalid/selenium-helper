@@ -15,6 +15,7 @@ class TestDriver(Helper):
 
 	def __init__(self):
 		self.driver = webdriver.Chrome()
+		self.set_dom(self.driver)
 
 	def test(self):
 		self.driver.get('https://www.google.com/')
