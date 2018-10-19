@@ -8,6 +8,7 @@ from typing import Generator
 from abc import ABCMeta
 import pandas as pd
 from os.path import exists
+from time import sleep
 
 
 class Helper(metaclass=ABCMeta):
@@ -17,7 +18,7 @@ class Helper(metaclass=ABCMeta):
     def set_dom(self, dom):
         self._driver = dom
 
-    def send_keys_by_xpath(self, xpath: str, value: str) -> bool:
+    def send_keys_by_xpath(self, xpath: str, value: str, speed: float = None) -> bool:
         element = self._driver.find_element_by_xpath(xpath)
 
         if element is None:
@@ -25,6 +26,14 @@ class Helper(metaclass=ABCMeta):
 
         # clear
         element.clear()
+
+        if speed is not None:
+            for v in value:
+                element.send_keys(v)
+                sleep(speed)
+
+            return None
+
         # send keys now
         element.send_keys(value)
 
